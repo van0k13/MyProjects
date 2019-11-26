@@ -6,8 +6,11 @@ const TodoListTask = (props) => {
         props.changeStatus(props.task, e.currentTarget.checked)
     }
 
+    let classesForTask = props.task.isDone
+        ? 'todoList-task done' : 'todolist-task';
+
     return (
-        <div className="todoList-task">
+        <div className={classesForTask}>
             <input type="checkbox"
                 checked={props.task.isDone}
                 onChange={onIsDoneChanged} />
