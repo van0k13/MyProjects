@@ -2,10 +2,6 @@ import React from 'react';
 import './App.css';
 
 class TodoListHeader extends React.Component {
-    constructor() {
-        super();
-        this.newTaskTitleRef = React.createRef();
-    }
 
     state = {
         error: false,
