@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/MyProjects/01-todolist/static/css/main.3e551b89.chunk.css",
-    "main.js": "/MyProjects/01-todolist/static/js/main.186e8d34.chunk.js",
-    "main.js.map": "/MyProjects/01-todolist/static/js/main.186e8d34.chunk.js.map",
-    "runtime~main.js": "/MyProjects/01-todolist/static/js/runtime~main.934fe621.js",
-    "runtime~main.js.map": "/MyProjects/01-todolist/static/js/runtime~main.934fe621.js.map",
-    "static/js/2.b74de432.chunk.js": "/MyProjects/01-todolist/static/js/2.b74de432.chunk.js",
-    "static/js/2.b74de432.chunk.js.map": "/MyProjects/01-todolist/static/js/2.b74de432.chunk.js.map",
-    "index.html": "/MyProjects/01-todolist/index.html",
-    "precache-manifest.76d06015ec827859344c0e7e7792e841.js": "/MyProjects/01-todolist/precache-manifest.76d06015ec827859344c0e7e7792e841.js",
-    "service-worker.js": "/MyProjects/01-todolist/service-worker.js",
-    "static/css/main.3e551b89.chunk.css.map": "/MyProjects/01-todolist/static/css/main.3e551b89.chunk.css.map"
+    "main.css": "/MyProjects/static/css/main.3e551b89.chunk.css",
+    "main.js": "/MyProjects/static/js/main.19f1a326.chunk.js",
+    "main.js.map": "/MyProjects/static/js/main.19f1a326.chunk.js.map",
+    "runtime~main.js": "/MyProjects/static/js/runtime~main.8396ca7c.js",
+    "runtime~main.js.map": "/MyProjects/static/js/runtime~main.8396ca7c.js.map",
+    "static/js/2.b74de432.chunk.js": "/MyProjects/static/js/2.b74de432.chunk.js",
+    "static/js/2.b74de432.chunk.js.map": "/MyProjects/static/js/2.b74de432.chunk.js.map",
+    "index.html": "/MyProjects/index.html",
+    "precache-manifest.d190623c50ef908de43fa2b41f04692a.js": "/MyProjects/precache-manifest.d190623c50ef908de43fa2b41f04692a.js",
+    "service-worker.js": "/MyProjects/service-worker.js",
+    "static/css/main.3e551b89.chunk.css.map": "/MyProjects/static/css/main.3e551b89.chunk.css.map"
   }
 }
