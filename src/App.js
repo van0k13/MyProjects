@@ -9,14 +9,15 @@ class App extends React.Component {
 
     state = {
         todolists: [
-            { id: 1, title: 'What to learn' },
-            { id: 2, title: 'Week tasks' },
-            { id: 3, title: 'Year tasks' }
         ]
     }
 
     componentDidMount() {
         this.restoreState();
+    }
+
+    componentDidUpdate() {
+        this.saveState();
     }
 
     addTodoList = (title) => {
