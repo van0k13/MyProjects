@@ -1,7 +1,13 @@
 .App {
-display: flex;
-flex-direction: row;
-flex-wrap: wrap;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+
+.error {
+  border-color: rgb(201, 83, 83);
+  transition: 1s;
 }
 
 .todoList {
@@ -9,22 +15,19 @@ flex-wrap: wrap;
   margin: 0 auto;
 }
 
+
 .todoList > div {
   padding: 10px;
 }
 
 .todoList-task {
-
+transition: 0.5s;
 }
+.todoList-task-done {
+  opacity: 0.5;
+  transition: 0.5s;
+ }
 
 .filter-active {
-  background-color: blue;
-}
-
-.error{
-  border-color: brown;
-}
-
-.todoList-task.done {
-  opacity: 0.5;
+  background-color: rgb(110, 110, 201);
 }
