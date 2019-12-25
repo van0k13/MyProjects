@@ -34,6 +34,7 @@ class App extends React.Component {
         this.state.nextTaskId++;
        this.props.addTodolist(newTask)
     }
+    
 
     render = () => {
         const todoList = this.props

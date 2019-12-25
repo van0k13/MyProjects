@@ -39,12 +39,55 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 todolists: [...state.todolists, action.newTodolist]
             }
+        case "DELETE_TODOLIST":
+            return {
+                ...state,
+                todolists: state.todolists.filter( tl => {
+                    return tl.id !== action.todolistId
+                } )
+            }
         case "ADD_TASK":
             return {
                 ...state,
                 todolists: state.todolists.map(tl => {
                     if (tl.id === action.todolistId) {
                         return { ...tl, tasks: [...tl.tasks, action.newTask] }
+                    } else {
+                        return tl
+                    }
+                })
+            }
+        case "CHANGE_TASK":
+            return {
+                ...state, 
+                todolists: state.todolists.map( (todo)=> {
+                    if (todo.id === action.todolistId) {
+                        return {
+                            ...todo,
+                            tasks: todo.tasks.map( (task)=> {
+                                if (task.id === action.taskId) {
+                                    return {...task, ...action.obj}
+                                } else {
+                                    return task
+                                }
+                            } )
+                        }        
+                    } else {
+                        return todo
+                    }
+                } )
+            }
+        case "DELETE_TASK": 
+            return {
+                ...state,
+                todolists: state.todolists.map( tl => {
+                    if (tl.id === action.todolistId) {
+                        return {
+                            ...tl, 
+                            tasks: tl.tasks.filter( task => {
+                                return (task.id !== action.taskId)
+                            })
+                        }
                     } else {
                         return tl
                     }

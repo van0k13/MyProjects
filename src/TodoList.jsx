@@ -48,27 +48,24 @@ class TodoList extends React.Component {
     }
 
     addItem = (newText) => {
-    //  let  todolistId = this.props.id
         let newTask = {
             id: this.nextTaskId,
             title: newText,
             isDone: false,
             priority: 'low'
         };
-        this.props.addTask(newTask, todolistId)
+        this.props.addTask(newTask, this.props.id)
         this.nextTaskId++;
+    }
+    deleteItem = (taskId) => {
+        this.props.deleteItem(taskId, this.props.id)
+    }
+    deleteTodolist = () => {
+        this.props.deleteTodolist(this.props.id)
     }
 
     changeTask = (taskId, obj) => {
-        let newTasks = this.state.tasks.map(t => {
-            if (t.id !== taskId) {
-                return t;
-            } else {
-                return { ...t, ...obj }
-            }
-        })
-        this.setState({ tasks: newTasks })
-        this.saveState()
+        this.props.changeTask(taskId, obj, this.props.id)
     }
 
     changeFilter = (newFilterValue) => {
@@ -91,9 +88,10 @@ class TodoList extends React.Component {
         return (
             <div className="App">
                 <div className="todoList">
-                    <TodoListTitle title={this.props.title} />
+                    <TodoListTitle deleteTodolist={this.deleteTodolist} title={this.props.title} />
                     <AddNewItemForm addItem={this.addItem} />
                     <TodoListTasks changeStatus={this.changeStatus}
+                        deleteItem={this.deleteItem}
                         changePriority={this.changePriority}
                         changeTitle={this.changeTitle}
                         tasks={this.props.tasks.filter(t => {
@@ -119,7 +117,27 @@ const mapDispatchToProps = (dispatch) => {
     return {
         addTask(newTask, todolistId) {
             const action = {
-                type: "ADD_TASK",newTask,todolistId};
+                type: "ADD_TASK", newTask, todolistId
+            };
+            dispatch(action)
+        },
+        changeTask(taskId, obj, todolistId) {
+            const action = {
+                type: "CHANGE_TASK", taskId, obj, todolistId
+            }
+            dispatch(action)
+        },
+        deleteTodolist: (todolistId) => {
+            const action = {
+                type: 'DELETE_TODOLIST',
+                todolistId
+            }
+            dispatch(action)
+        },
+        deleteItem: (taskId, todolistId) => {
+            const action = {
+                type: 'DELETE_TASK', taskId, todolistId
+            }
             dispatch(action)
         }
     }

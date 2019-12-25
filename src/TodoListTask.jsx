@@ -8,6 +8,10 @@ class TodoListTask extends React.Component {
         editModePriority: false
     }
 
+    onTaskDeleting = () => {
+        let task = this.props.task
+        this.props.deleteItem(task.id)
+    }
     onPriorityChange = (e) => {
         let task = this.props.task
         this.props.changePriority(task.id, e.currentTarget.value)
@@ -55,8 +59,8 @@ class TodoListTask extends React.Component {
                 {this.state.editModePriority
                     ? <input value={this.props.task.priority}
                         onChange={this.onPriorityChange} onBlur={this.deActivateEditModePriority} />
-                    : <span onClick={this.activateEditModePriority}> priority: {this.props.task.priority}</span>
-                }
+                : <span onClick={this.activateEditModePriority}> priority: {this.props.task.priority}</span>
+                }<button onClick={this.onTaskDeleting}>X</button>
             </div>
         );
     }
