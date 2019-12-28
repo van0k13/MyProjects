@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import styles from './TodoListTask.module.css';
 
 class TodoListTask extends React.Component {
 
@@ -60,7 +60,7 @@ class TodoListTask extends React.Component {
                     ? <input value={this.props.task.priority}
                         onChange={this.onPriorityChange} onBlur={this.deActivateEditModePriority} />
                 : <span onClick={this.activateEditModePriority}> priority: {this.props.task.priority}</span>
-                }<button onClick={this.onTaskDeleting}>X</button>
+                }<button className={styles.removingButton} onClick={this.onTaskDeleting}>X</button>
             </div>
         );
     }

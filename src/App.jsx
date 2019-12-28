@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import TodoList from './TodoList';
+import TodoList from './TodoList/TodoList';
 import AddNewItemForm from './AddNewItemForm';
 import { connect } from 'react-redux';
 
@@ -26,6 +26,7 @@ class App extends React.Component {
         this.setState(state)
     }
     addTodoList = (newTitle) => {
+        debugger
       let newTask = {
             id: this.state.nextTaskId,
             title: newTitle,
@@ -41,7 +42,7 @@ class App extends React.Component {
         .todolists.map(tl => <TodoList id={tl.id} title={tl.title} tasks={tl.tasks} />)
         return (
             <>
-                <div>
+                <div className='header'>
                     <AddNewItemForm addItem={this.addTodoList}/>
                 </div>
                 <div className="App">

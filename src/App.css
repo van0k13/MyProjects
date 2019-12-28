@@ -4,28 +4,32 @@
   flex-wrap: wrap;
 }
 
-
+.header {
+  width: 100%;
+  border: 1px black solid;
+  background-color: rgb(139, 185, 185);
+  margin: 10px;
+}
 .error {
   border-color: rgb(201, 83, 83);
   transition: 1s;
 }
-
-.todoList {
-  width: 400px;
-  margin: 0 auto;
+.addTodolistButton{
+  background-color: coral;
 }
-
 
 .todoList > div {
   padding: 10px;
 }
 
 .todoList-task {
-transition: 0.5s;
+  position: relative;
+  transition: 0.5s;
 }
 .todoList-task-done {
   opacity: 0.5;
   transition: 0.5s;
+  position: relative;
  }
 
 .filter-active {

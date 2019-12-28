@@ -43,7 +43,7 @@ class AddNewItemForm extends React.Component {
                         className={errorClass}
                         type="text" placeholder="New Item name"
                         onKeyPress={this.onKeyPress} />
-                    <button onClick={this.onAddItemClick}>Add</button>
+                    <button className='addTodolistButton' onClick={this.onAddItemClick}>Add</button>
                 </div>
             </div>
         );

@@ -1,0 +1,11 @@
+.removingButton {
+    composes: rmvbtn from '../index.css';
+}
+
+.todoList-task {
+    transition: 0.5s;
+}
+.todoList-task-done {
+    opacity: 0.5;
+    transition: 0.5s;
+}
