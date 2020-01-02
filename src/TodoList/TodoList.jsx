@@ -5,6 +5,7 @@ import TodoListFooter from '../TodoListFooter';
 import TodoListTitle from '../TodoListTitle/TodoListTitle';
 import AddNewItemForm from '../AddNewItemForm';
 import { connect } from 'react-redux';
+import { addTaskAC, changeTaskAC, deleteTodoListAC, deleteItemAC } from '../reducer';
 
 class TodoList extends React.Component {
 
@@ -114,28 +115,19 @@ class TodoList extends React.Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         addTask(newTask, todolistId) {
-            const action = {
-                type: "ADD_TASK", newTask, todolistId
-            };
+            const action = addTaskAC(newTask, todolistId);
             dispatch(action)
         },
         changeTask(taskId, obj, todolistId) {
-            const action = {
-                type: "CHANGE_TASK", taskId, obj, todolistId
-            }
+            const action = changeTaskAC(taskId, obj, todolistId);
             dispatch(action)
         },
         deleteTodolist: (todolistId) => {
-            const action = {
-                type: 'DELETE_TODOLIST',
-                todolistId
-            }
+            const action = deleteTodoListAC(todolistId);
             dispatch(action)
         },
         deleteItem: (taskId, todolistId) => {
-            const action = {
-                type: 'DELETE_TASK', taskId, todolistId
-            }
+            const action = deleteItemAC(taskId, todolistId)
             dispatch(action)
         }
     }
