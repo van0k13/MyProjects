@@ -70,6 +70,7 @@ const reducer = (state = initialState, action) => {
                             ...todo,
                             tasks: todo.tasks.map( (task)=> {
                                 if (task.id === action.taskId) {
+                                    debugger
                                     return {...task, ...action.obj}
                                 } else {
                                     return task
