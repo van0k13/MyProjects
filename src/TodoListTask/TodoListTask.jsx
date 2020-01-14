@@ -9,7 +9,6 @@ class TodoListTask extends React.Component {
     }
 
     onTaskDeleting = () => {
-        debugger
         let task = this.props.task
         this.props.deleteItem(task.id)
     }

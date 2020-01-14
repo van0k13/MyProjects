@@ -5,7 +5,7 @@ import TodoListFooter from '../TodoListFooter';
 import TodoListTitle from '../TodoListTitle/TodoListTitle';
 import AddNewItemForm from '../AddNewItemForm';
 import { connect } from 'react-redux';
-import { addTaskAC, changeTaskAC, deleteTodoListAC, deleteItemAC } from '../reducer';
+import { addTask, changeTask, deleteTodoList, deleteItem } from '../reducer';
 
 class TodoList extends React.Component {
 
@@ -31,21 +31,23 @@ class TodoList extends React.Component {
     }
 
     restoreState = () => {
-        let state = {
-            tasks: [],
-            filterValue: "All"
-        };
+        // объявляем наш стейт стартовый
+        let state = this.state;
+        // считываем сохранённую ранее строку из localStorage
         let stateAsString = localStorage.getItem('test-todolist' + this.props.id);
-        if (stateAsString !== null) {
-            state = JSON.parse(stateAsString)
+        // а вдруг ещё не было ни одного сохранения?? тогда будет null.
+        // если не null, тогда превращаем строку в объект
+        if (stateAsString != null) {
+            state = JSON.parse(stateAsString);
         }
+        // устанавливаем стейт (либо пустой, либо восстановленный) в стейт
         this.setState(state, () => {
-            this.state.tasks.map(t => {
+            this.state.tasks.forEach(t => {
                 if (t.id >= this.nextTaskId) {
-                    return this.nextTaskId++;
+                    this.nextTaskId = t.id + 1;
                 }
             })
-        })
+        });
     }
 
     addItem = (newText) => {
@@ -62,7 +64,7 @@ class TodoList extends React.Component {
         this.props.deleteItem(taskId, this.props.id)
     }
     deleteTodolist = () => {
-        this.props.deleteTodolist(this.props.id)
+        this.props.deleteTodoList(this.props.id)
     }
 
     changeTask = (taskId, obj) => {
@@ -111,27 +113,6 @@ class TodoList extends React.Component {
         );
     }
 }
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        addTask(newTask, todolistId) {
-            const action = addTaskAC(newTask, todolistId);
-            dispatch(action)
-        },
-        changeTask(taskId, obj, todolistId) {
-            const action = changeTaskAC(taskId, obj, todolistId);
-            dispatch(action)
-        },
-        deleteTodolist: (todolistId) => {
-            const action = deleteTodoListAC(todolistId);
-            dispatch(action)
-        },
-        deleteItem: (taskId, todolistId) => {
-            const action = deleteItemAC(taskId, todolistId)
-            dispatch(action)
-        }
-    }
-}
-const ConnectedTodoList = connect(null, mapDispatchToProps)(TodoList);
+const ConnectedTodoList = connect(null, {deleteItem,deleteTodoList,changeTask,addTask  })(TodoList);
 export default ConnectedTodoList;
 
