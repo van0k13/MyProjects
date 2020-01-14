@@ -36,7 +36,13 @@ class App extends React.Component {
         });
     }
     restoreState = () => {
-        axios.get("https://social-network.samuraijs.com/api/1.1/todo-lists", { withCredentials: true })
+        axios
+            .get("https://social-network.samuraijs.com/api/1.1/todo-lists", {
+                withCredentials: true,
+                headers: {
+                    "API-KEY": "d4a52b38-3f53-4696-96ef-92d8bbcea7be" 
+                }
+            })
             .then(res => {
                 this.props.setTodoList(res.data)
                 console.log(res.data);
@@ -45,13 +51,14 @@ class App extends React.Component {
     addTodoList = (title) => {
         axios
             .post("https://social-network.samuraijs.com/api/1.1/todo-lists",
-                {title},
-                { withCredentials: true,
-                headers: {
-                    "API-KEY": "d4a52b38-3f53-4696-96ef-92d8bbcea7be" //взяли на сайте камасутры (сгенерирован автоматом)
-                } })
-            .then((res)=>{
-                debugger
+                { title },
+                {
+                    withCredentials: true,
+                    headers: {
+                        "API-KEY": "d4a52b38-3f53-4696-96ef-92d8bbcea7be" //взяли на сайте камасутры (сгенерирован автоматом)
+                    }
+                })
+            .then((res) => {
                 let todolist = res.data.data.item;
                 this.props.addTodoList(todolist);
             })
