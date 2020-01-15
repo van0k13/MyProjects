@@ -111,7 +111,6 @@ class TodoList extends React.Component {
                     }
                 })
             .then((res) => {
-                //  let newTask = res.data.data.item;
                 this.props.changeTask(taskId, obj, this.props.id)
             })
 
