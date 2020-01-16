@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
-import TodoList from './TodoList/TodoList';
-import AddNewItemForm from './AddNewItemForm';
+import TodoList from './UI/TodoList/TodoList';
+import AddNewItemForm from './UI/AddNewItemForm';
 import { connect } from 'react-redux';
-import { addTodoList, setTodoList } from './reducer';
-import axios from 'axios';
+import { addTodoList, setTodoList } from './BLL/reducer';
+import { api } from './DAL/api';
 
 class App extends React.Component {
     nextTodoListId = 0;
@@ -36,39 +36,23 @@ class App extends React.Component {
         });
     }
     restoreState = () => {
-        axios
-            .get("https://social-network.samuraijs.com/api/1.1/todo-lists", {
-                withCredentials: true,
-                headers: {
-                    "API-KEY": "d4a52b38-3f53-4696-96ef-92d8bbcea7be" 
-                }
-            })
-            .then(res => {
-                this.props.setTodoList(res.data)
-                console.log(res.data);
+           api.getTodolists()
+           .then(res => {
+                this.props.setTodoList(res)
             });
     }
     addTodoList = (title) => {
-        axios
-            .post("https://social-network.samuraijs.com/api/1.1/todo-lists",
-                { title },
-                {
-                    withCredentials: true,
-                    headers: {
-                        "API-KEY": "d4a52b38-3f53-4696-96ef-92d8bbcea7be" //взяли на сайте камасутры (сгенерирован автоматом)
-                    }
-                })
+       api.addTodolist(title)
             .then((res) => {
-                let todolist = res.data.data.item;
+                let todolist = res.data.item;
                 this.props.addTodoList(todolist);
             })
     }
 
 
     render = () => {
-        console.log(this.props)
         const todoList = this.props
-            .todolists.map(tl => <TodoList id={tl.id} title={tl.title} tasks={tl.tasks} />)
+            .todolists.map(tl => <TodoList key={tl.id} id={tl.id} title={tl.title} tasks={tl.tasks} />)
         return (
             <>
                 <div className='header'>

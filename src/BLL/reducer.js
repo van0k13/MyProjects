@@ -1,5 +1,6 @@
 const ADD_TODOLLIST = "Todolist/reducer/ADD_TODOLIST";
 const DELETE_TODOLIST = "Todolist/reducer/DELETE_TODOLIST";
+const CHANGE_TODOLIST = "Todolist/reducer/CHANGE_TODOLIST";
 const ADD_TASK = "Todolist/reducer/ADD_TASK";
 const CHANGE_TASK = "Todolist/reducer/CHANGE_TASK";
 const DELETE_TASK = "Todolist/reducer/DELETE_TASK";
@@ -26,6 +27,15 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 todolists: [todolists, ...state.todolists],
                 nextTaskId: +1
+            }
+        case CHANGE_TODOLIST:
+            return {
+                ...state, todolists: state.todolists.map(todo => {
+                    if(todo.id === action.id)  {
+                        debugger
+                        return {...todo, title: action.title}
+                    } else { return todo}
+                }) 
             }
         case SET_TASKS:
             return {
@@ -101,6 +111,7 @@ export const setTasks = (tasks, todolistId) => ({type: SET_TASKS, tasks, todolis
 export const addTodoList = (newTodolist) => ({type: ADD_TODOLLIST, newTodolist});
 export const addTask = (newTask,todolistId) => ({type: ADD_TASK, newTask,todolistId});
 export const changeTask = (taskId, obj, todolistId) => ({type: CHANGE_TASK, taskId, obj, todolistId});
+export const changeTodolist = (todolistId, title) => ({type: CHANGE_TODOLIST, todolistId, title});
 export const deleteTodoList = (todolistId) => ({type: DELETE_TODOLIST, todolistId});
 export const deleteItem = (taskId, todolistId) => ({type: DELETE_TASK, taskId, todolistId});
 

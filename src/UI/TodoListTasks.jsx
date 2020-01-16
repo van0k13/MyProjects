@@ -1,11 +1,11 @@
 import React from 'react';
-import './App.css';
+import '../App.css';
 import TodoListTask from './TodoListTask/TodoListTask';
 
 class TodoListTasks extends React.Component {
     render = () => {
         let taskElements = this.props.tasks.map( 
-            t => <TodoListTask changeTitle={this.props.changeTitle} 
+            t => <TodoListTask key={t.id} changeTitle={this.props.changeTitle} 
             changePriority={this.props.changePriority}
             deleteItem={this.props.deleteItem}
             changeStatus={this.props.changeStatus} task={t}/>)
