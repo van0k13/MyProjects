@@ -26,10 +26,8 @@ export const api = {
         .put(`${todoId}`, title)
     },
     getTasks(todoId) {
-
         return instance
             .get(`${todoId}/tasks`)
-            .then((res) => res.data)
     },
     addTask(TodoId, newText) {
         return instance

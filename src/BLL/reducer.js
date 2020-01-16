@@ -32,7 +32,6 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state, todolists: state.todolists.map(todo => {
                     if(todo.id === action.id)  {
-                        debugger
                         return {...todo, title: action.title}
                     } else { return todo}
                 }) 

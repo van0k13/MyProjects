@@ -17,8 +17,6 @@ class TodoList extends React.Component {
         this.saveState();
     }
 
-    newTaskTitleRef = React.createRef();
-
     state = {
         tasks: [],
         filterValue: 'All'
@@ -34,7 +32,7 @@ class TodoList extends React.Component {
     restoreState = () => {
         api.getTasks(this.props.id)
             .then((res) => {
-                let tasks = res.items;
+                let tasks = res.data.items;
                 this.props.setTasks(tasks, this.props.id);
             })
     }
@@ -101,7 +99,6 @@ class TodoList extends React.Component {
                 })
             })
     }
-    changeTodolisTitle
     changePriority = (taskId, incomPriority) => {
         this.changeTask(taskId, { priority: incomPriority })
     }
@@ -124,9 +121,9 @@ class TodoList extends React.Component {
                             case 'All':
                                 return t;
                             case 'Completed':
-                                return t.isDone;
+                                return t.status;
                             case 'Active':
-                                return !t.isDone;
+                                return !t.status;
                             default:
                                 return t;
                         }

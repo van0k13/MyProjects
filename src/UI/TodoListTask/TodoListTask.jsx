@@ -6,7 +6,8 @@ class TodoListTask extends React.Component {
     state = {
         editModeTitle: false,
         editModePriority: false,
-        title: this.props.task.title
+        title: this.props.task.title,
+        priorityStatus: this.props.task.priority
     }
 
     onTaskDeleting = () => {
@@ -19,7 +20,7 @@ class TodoListTask extends React.Component {
     }
     onTitleChange = (e) => {
         this.setState({
-            title:  e.currentTarget.value
+            title: e.currentTarget.value
         })
     }
     onIsDoneChange = (e) => {
@@ -45,25 +46,36 @@ class TodoListTask extends React.Component {
     }
     deActivateEditModePriority = () => {
         this.setState({
-            editModePriority: false
+            editModePriority: false,
+
         })
     }
 
     render = () => {
-        let taskOrIsDoneStyle = this.props.task.isDone === true ? 'todoList-task-done' : 'todoList-task'
+        console.log(this.props.task.status)
+        let priorityStatus = ''
+        switch (this.props.task.priority) {
+            case 0: priorityStatus = 'low'; break;
+            case 1: priorityStatus = 'medium'; break;
+            case 2: priorityStatus = 'high'; break;
+            case 3: priorityStatus = 'urgent'; break;
+            case 4: priorityStatus = 'critical'; break;
+            default: return null;
+        }
+        let taskOrIsDoneStyle = this.props.task.status === 2 ? 'todoList-task-done' : 'todoList-task'
         return (
             <div className={taskOrIsDoneStyle}>
-                <input onChange={this.onIsDoneChange} type="checkbox" checked={this.props.task.isDone} />
+                <input onChange={this.onIsDoneChange} type="checkbox" checked={this.props.task.status} />
                 {this.state.editModeTitle
                     ? <input onBlur={this.deActivateEditModeTitle}
                         onChange={this.onTitleChange}
                         autoFocus={true} value={this.state.title} />
-                    : <span onClick={this.activateEditModeTitle}>{' '}{this.state.title} </span>
+                    : <span  onClick={this.activateEditModeTitle}>{' '}{this.state.title} </span>
                 },
                 {this.state.editModePriority
                     ? <input value={this.props.task.priority}
                         onChange={this.onPriorityChange} onBlur={this.deActivateEditModePriority} />
-                : <span onClick={this.activateEditModePriority}/>
+                    : <span onClick={this.activateEditModePriority} >{priorityStatus}</span>
                 }<button className={styles.removingButton} onClick={this.onTaskDeleting}>X</button>
             </div>
         );
