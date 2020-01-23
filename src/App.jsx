@@ -3,8 +3,7 @@ import './App.css';
 import TodoList from './UI/TodoList/TodoList';
 import AddNewItemForm from './UI/AddNewItemForm';
 import { connect } from 'react-redux';
-import { addTodoList, setTodoList } from './BLL/reducer';
-import { api } from './DAL/api';
+import {thunkCreators } from './BLL/reducer';
 
 class App extends React.Component {
     nextTodoListId = 0;
@@ -36,19 +35,12 @@ class App extends React.Component {
         });
     }
     restoreState = () => {
-           api.getTodolists()
-           .then(res => {
-                this.props.setTodoList(res)
-            });
+        this.props.loadTodolists()
+
     }
     addTodoList = (title) => {
-       api.addTodolist(title)
-            .then((res) => {
-                let todolist = res.data.item;
-                this.props.addTodoList(todolist);
-            })
+        this.props.addTodoList(title)
     }
-
 
     render = () => {
         const todoList = this.props
@@ -66,11 +58,24 @@ class App extends React.Component {
     }
 }
 
+
 const mapStateToProps = (state) => {
     return {
         todolists: state.todolists,
     }
 }
-const ConnectedApp = connect(mapStateToProps, { addTodoList, setTodoList })(App);
+const mdtp = (dispatch) => {
+    return {
+        loadTodolists: () => {
+            const thunk = thunkCreators.loadTodolistsTC();
+            dispatch(thunk);
+        },
+        addTodoList: (title) => {
+            const thunk = thunkCreators.addTodolistTC(title);
+            dispatch(thunk)
+        }
+    }
+}
+const ConnectedApp = connect(mapStateToProps, mdtp)(App);
 export default ConnectedApp;
 

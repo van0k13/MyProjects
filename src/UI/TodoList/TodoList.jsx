@@ -5,8 +5,7 @@ import TodoListFooter from '../TodoListFooter';
 import TodoListTitle from '../TodoListTitle/TodoListTitle';
 import AddNewItemForm from '../AddNewItemForm';
 import { connect } from 'react-redux';
-import { addTask, changeTask, deleteTodoList, deleteItem, setTasks, changeTodolist } from '../../BLL/reducer';
-import { api } from '../../DAL/api';
+import { thunkCreators } from '../../BLL/reducer';
 
 class TodoList extends React.Component {
 
@@ -30,61 +29,26 @@ class TodoList extends React.Component {
     }
 
     restoreState = () => {
-        api.getTasks(this.props.id)
-            .then((res) => {
-                let tasks = res.data.items;
-                this.props.setTasks(tasks, this.props.id);
-            })
+        this.props.loadTasks(this.props.id)
     }
     addItem = (newText) => {
-        api.addTask(this.props.id, newText)
-            .then((res) => {
-                let newTask = res.data.item;
-                this.props.addTask(newTask, this.props.id);
-            })
+        this.props.addTask(this.props.id, newText)
+
     }
     deleteItem = (taskId) => {
-        api.deleteTask(this.props.id, taskId)
-            .then(res => {
-                this.props.deleteItem(taskId, this.props.id)
-            });
-
+        this.props.deleteTask(this.props.id, taskId)
     }
     deleteTodolist = () => {
-        api.deleteTodolist(this.props.id)
-            .then(res => {
-                this.props.deleteTodoList(this.props.id)
-            });
-
+        this.props.deleteTodolist(this.props.id)
     }
-    changeTodolist = () => {
-
-    }
-
     changeTask = (taskId, obj) => {
-        let task = this.props.tasks.find(t => t.id === taskId)
-        let dataForServer = {
-            title: task.title,
-            description: task.description,
-            completed: task.completed,
-            status: task.status,
-            priority: task.priority,
-            startDate: task.startDate,
-            deadline: task.deadline,
-            ...obj
-        };
-        api.changeTask(this.props.id, taskId, dataForServer)
-            .then((res) => {
-                this.props.changeTask(taskId, obj, this.props.id)
-            })
+        this.props.changeTask(this.props.id, taskId, obj)
     }
-
     changeFilter = (newFilterValue) => {
         this.setState({
             filterValue: newFilterValue
         });
     }
-
     changeStatus = (taskId, isDone) => {
         this.changeTask(taskId, { status: isDone })
     }
@@ -92,12 +56,7 @@ class TodoList extends React.Component {
         this.changeTask(taskId, { title: incomTitle })
     }
     changeTodolisTitle = (todoId, incomTitle) => {
-        api.changeTodolist(todoId, {title: incomTitle})
-            .then(res => {
-                this.props.changeTodolist(todoId, {
-                    title: incomTitle
-                })
-            })
+        this.props.changeTodolistTitle(todoId, incomTitle)
     }
     changePriority = (taskId, incomPriority) => {
         this.changeTask(taskId, { priority: incomPriority })
@@ -133,6 +92,31 @@ class TodoList extends React.Component {
         );
     }
 }
-const ConnectedTodoList = connect(null, { deleteItem, deleteTodoList, changeTask, addTask, setTasks, changeTodolist })(TodoList);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loadTasks: (todolistId) => {
+            let thunk = thunkCreators.loadTasksTC(todolistId);
+            dispatch(thunk)
+        },
+        addTask: (todolistId, newText) => {
+            let thunk = thunkCreators.addTaskTC(todolistId, newText);
+            dispatch(thunk)
+        },
+        changeTodolistTitle: (todolistId, title) => {
+            let thunk = thunkCreators.changeTodolistTitleTC(todolistId, title);
+            dispatch(thunk)
+        },
+        changeTask: (todolistId, taskId, obj) => {
+            let thunk = thunkCreators.changeTaskTC(todolistId, taskId, obj);
+            dispatch(thunk)
+        },
+        deleteTodolist: (todolistId) => {
+            dispatch(thunkCreators.deleteTodolistTC(todolistId))
+        },
+        deleteTask: (todolistId, taskId) => {
+            dispatch(thunkCreators.deleteTaskTC(todolistId, taskId))
+        }
+    }
+}
+const ConnectedTodoList = connect(null, mapDispatchToProps)(TodoList);
 export default ConnectedTodoList;
-
