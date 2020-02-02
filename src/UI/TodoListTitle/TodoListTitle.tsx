@@ -1,7 +1,14 @@
 import React from 'react';
 import styles from './TodoListTitle.module.css'
 
-class TodoListTitle extends React.Component {
+
+interface IProps {
+    changeTodolisTitle: Function,
+    deleteTodolist: any,
+    id: string,
+    title: string
+}
+class TodoListTitle extends React.Component<IProps> {
     state = {
         editModeTitle: false,
         title: this.props.title
@@ -18,7 +25,7 @@ class TodoListTitle extends React.Component {
             editModeTitle: false
         })
     }
-    onTitleChange = (e) => {
+    onTitleChange = (e: React.FormEvent<HTMLInputElement>) => {
         this.setState({
             title:  e.currentTarget.value
         })

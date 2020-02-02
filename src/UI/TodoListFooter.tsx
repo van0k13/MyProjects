@@ -1,8 +1,16 @@
 import React from 'react';
 import '../App.css';
 
-class TodoListFooter extends React.Component {
-    state = {
+
+interface IProps {
+    changeFilter: Function,
+    filterValue: string
+}
+interface IState {
+    isHidden: boolean
+}
+class TodoListFooter extends React.Component<IProps> {
+    state: IState = {
         isHidden: false
     }
     onAllFilterClick = () => { this.props.changeFilter('All')}

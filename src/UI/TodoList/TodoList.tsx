@@ -6,8 +6,30 @@ import TodoListTitle from '../TodoListTitle/TodoListTitle';
 import AddNewItemForm from '../AddNewItemForm';
 import { connect } from 'react-redux';
 import { thunkCreators } from '../../BLL/reducer';
+import { ITask } from '../../BLL/types';
 
-class TodoList extends React.Component {
+interface IProps {
+    id: string,
+    title: string,
+    tasks: Array<ITask>
+
+}
+interface IMapDispatchToProps {
+    loadTasks: Function,
+    addTask: Function,
+    deleteTask: Function,
+    deleteTodolist: Function,
+    changeTask: Function,
+    changeTodolistTitle: Function
+
+}
+interface IState {
+    tasks: Array<ITask>,
+    filterValue: string
+
+}
+
+class TodoList extends React.Component<IProps & IMapDispatchToProps>  {
 
     componentDidMount() {
         this.restoreState();
@@ -16,7 +38,7 @@ class TodoList extends React.Component {
         this.saveState();
     }
 
-    state = {
+    state: IState = {
         tasks: [],
         filterValue: 'All'
     }
@@ -31,34 +53,34 @@ class TodoList extends React.Component {
     restoreState = () => {
         this.props.loadTasks(this.props.id)
     }
-    addItem = (newText) => {
+    addItem = (newText: string) => {
         this.props.addTask(this.props.id, newText)
 
     }
-    deleteItem = (taskId) => {
+    deleteItem = (taskId: string) => {
         this.props.deleteTask(this.props.id, taskId)
     }
     deleteTodolist = () => {
         this.props.deleteTodolist(this.props.id)
     }
-    changeTask = (taskId, obj) => {
+    changeTask = (taskId: string, obj: any) => {
         this.props.changeTask(this.props.id, taskId, obj)
     }
-    changeFilter = (newFilterValue) => {
+    changeFilter = (newFilterValue:string) => {
         this.setState({
             filterValue: newFilterValue
         });
     }
-    changeStatus = (taskId, isDone) => {
+    changeStatus = (taskId: string, isDone:boolean) => {
         this.changeTask(taskId, { status: isDone })
     }
-    changeTitle = (taskId, incomTitle) => {
+    changeTitle = (taskId: string, incomTitle: string) => {
         this.changeTask(taskId, { title: incomTitle })
     }
-    changeTodolisTitle = (todoId, incomTitle) => {
+    changeTodolisTitle = (todoId: string, incomTitle: string) => {
         this.props.changeTodolistTitle(todoId, incomTitle)
     }
-    changePriority = (taskId, incomPriority) => {
+    changePriority = (taskId: string, incomPriority: number) => {
         this.changeTask(taskId, { priority: incomPriority })
     }
 
@@ -71,7 +93,7 @@ class TodoList extends React.Component {
                     id={this.props.id}
                     title={this.props.title} />
                 <AddNewItemForm addItem={this.addItem} />
-                <TodoListTasks key={this.props.tasks.id} changeStatus={this.changeStatus}
+                <TodoListTasks id={this.props.tasks.map((t) =>t.id)} changeStatus={this.changeStatus}
                     deleteItem={this.deleteItem}
                     changePriority={this.changePriority}
                     changeTitle={this.changeTitle}
@@ -92,28 +114,28 @@ class TodoList extends React.Component {
         );
     }
 }
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch: Function) => {
     return {
-        loadTasks: (todolistId) => {
+        loadTasks: (todolistId: string) => {
             let thunk = thunkCreators.loadTasksTC(todolistId);
             dispatch(thunk)
         },
-        addTask: (todolistId, newText) => {
+        addTask: (todolistId: string, newText: string) => {
             let thunk = thunkCreators.addTaskTC(todolistId, newText);
             dispatch(thunk)
         },
-        changeTodolistTitle: (todolistId, title) => {
+        changeTodolistTitle: (todolistId: string, title: string) => {
             let thunk = thunkCreators.changeTodolistTitleTC(todolistId, title);
             dispatch(thunk)
         },
-        changeTask: (todolistId, taskId, obj) => {
+        changeTask: (todolistId: string, taskId: string, obj: any) => {
             let thunk = thunkCreators.changeTaskTC(todolistId, taskId, obj);
             dispatch(thunk)
         },
-        deleteTodolist: (todolistId) => {
+        deleteTodolist: (todolistId: string) => {
             dispatch(thunkCreators.deleteTodolistTC(todolistId))
         },
-        deleteTask: (todolistId, taskId) => {
+        deleteTask: (todolistId: string, taskId: string) => {
             dispatch(thunkCreators.deleteTaskTC(todolistId, taskId))
         }
     }

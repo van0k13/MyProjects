@@ -1,8 +1,16 @@
 import React from 'react';
 import '../App.css';
 
-class AddNewItemForm extends React.Component {
-    state = {
+
+interface IProps {
+    addItem: Function
+}
+interface IState {
+error: boolean,
+title: string
+}
+class AddNewItemForm extends React.Component<IProps> {
+    state: IState = {
         error: false,
         title: ''
     }
@@ -20,13 +28,13 @@ class AddNewItemForm extends React.Component {
         }
         this.props.addItem(newText);
     }
-    onTitleChange = (e) => {
+    onTitleChange = (e: React.FormEvent<HTMLInputElement>) => {
         this.setState({
             error: false,
             title: e.currentTarget.value
         })
     }
-    onKeyPress = (e) => {
+    onKeyPress = (e: KeyboardEventInit) => {
         if (e.key === 'Enter') {
             this.onAddItemClick()
         }
@@ -36,7 +44,7 @@ class AddNewItemForm extends React.Component {
         let errorClass = this.state.error === true ? 'error' : '';
         return (
             <div className="todoList-header">
-                <h3 className="todoList-header__title">{this.props.title}</h3>
+                <h3 className="todoList-header__title">{this.state.title}</h3>
                 <div className="todoList-newTaskForm">
                     <input onChange={this.onTitleChange}
                         value={this.state.title}

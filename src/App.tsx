@@ -4,11 +4,23 @@ import TodoList from './UI/TodoList/TodoList';
 import AddNewItemForm from './UI/AddNewItemForm';
 import { connect } from 'react-redux';
 import {thunkCreators } from './BLL/reducer';
+import {IState, Itodolist} from "./BLL/types";
 
-class App extends React.Component {
-    nextTodoListId = 0;
-    state = {
-        todolists: []
+
+interface IMapDispatchToProps {
+    loadTodolists: Function,
+    addTodoList: Function,
+    
+
+}
+interface IMapStateToProps{
+    todolists: Itodolist[],
+}
+class App extends React.Component<IMapDispatchToProps & IMapStateToProps> {
+    nextTodoListId: number = 0;
+    state: IState = {
+        todolists: [],
+        nextTaskId: 1
     }
     componentDidMount() {
         this.restoreState();
@@ -27,7 +39,7 @@ class App extends React.Component {
             state = JSON.parse(stateAsString)
         }
         this.setState(state, () => {
-            this.state.todolists.forEach(t => {
+            this.state.todolists.forEach((t: any) => {
                 if (t.id >= this.nextTodoListId) {
                     this.nextTodoListId = t.id + 1;
                 }
@@ -38,13 +50,13 @@ class App extends React.Component {
         this.props.loadTodolists()
 
     }
-    addTodoList = (title) => {
+    addTodoList = (title: string) => {
         this.props.addTodoList(title)
     }
 
     render = () => {
         const todoList = this.props
-            .todolists.map(tl => <TodoList key={tl.id} id={tl.id} title={tl.title} tasks={tl.tasks} />)
+            .todolists.map((tl: any) => <TodoList id={tl.id} title={tl.title} tasks={tl.tasks} />)
         return (
             <>
                 <div className='header'>
@@ -59,18 +71,18 @@ class App extends React.Component {
 }
 
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: IState): IMapStateToProps => {
     return {
         todolists: state.todolists,
     }
 }
-const mdtp = (dispatch) => {
+const mdtp = (dispatch: Function) => {
     return {
         loadTodolists: () => {
             const thunk = thunkCreators.loadTodolistsTC();
             dispatch(thunk);
         },
-        addTodoList: (title) => {
+        addTodoList: (title: string) => {
             const thunk = thunkCreators.addTodolistTC(title);
             dispatch(thunk)
         }

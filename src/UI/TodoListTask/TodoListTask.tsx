@@ -1,29 +1,47 @@
 import React from 'react';
 import styles from './TodoListTask.module.css';
+import { ITask } from '../../BLL/types';
 
-class TodoListTask extends React.Component {
+interface IProps {
+    key: string,
+    changeTitle: Function,
+    changePriority: Function,
+    deleteItem: Function,
+    changeStatus: Function,
+    task: ITask
+}
+interface IState {
+    editModeTitle: boolean,
+    editModePriority: boolean,
+    title: string,
+    priorityStatus: number,
+    checked: any
+}
 
-    state = {
+class TodoListTask extends React.Component<IProps> {
+
+    state:IState = {
         editModeTitle: false,
         editModePriority: false,
         title: this.props.task.title,
-        priorityStatus: this.props.task.priority
+        priorityStatus: this.props.task.priority,
+        checked: this.props.task.status
     }
 
     onTaskDeleting = () => {
         let task = this.props.task
         this.props.deleteItem(task.id)
     }
-    onPriorityChange = (e) => {
+    onPriorityChange = (e: React.FormEvent<HTMLInputElement>) => {
         let task = this.props.task
         this.props.changePriority(task.id, e.currentTarget.value)
     }
-    onTitleChange = (e) => {
+    onTitleChange = (e: React.FormEvent<HTMLInputElement>) => {
         this.setState({
             title: e.currentTarget.value
         })
     }
-    onIsDoneChange = (e) => {
+    onIsDoneChange = (e: React.FormEvent<HTMLInputElement>) => {
         let task = this.props.task
         let status = e.currentTarget.checked ? 2 : 0
         this.props.changeStatus(task.id, status)
@@ -53,7 +71,7 @@ class TodoListTask extends React.Component {
 
     render = () => {
         console.log(this.props.task.status)
-        let priorityStatus = ''
+        let priorityStatus: string = ''
         switch (this.props.task.priority) {
             case 0: priorityStatus = 'low'; break;
             case 1: priorityStatus = 'medium'; break;
@@ -65,7 +83,7 @@ class TodoListTask extends React.Component {
         let taskOrIsDoneStyle = this.props.task.status === 2 ? 'todoList-task-done' : 'todoList-task'
         return (
             <div className={taskOrIsDoneStyle}>
-                <input onChange={this.onIsDoneChange} type="checkbox" checked={this.props.task.status} />
+                <input onChange={this.onIsDoneChange} type="checkbox" checked={this.state.checked} />
                 {this.state.editModeTitle
                     ? <input onBlur={this.deActivateEditModeTitle}
                         onChange={this.onTitleChange}
