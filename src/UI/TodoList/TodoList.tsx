@@ -71,8 +71,8 @@ class TodoList extends React.Component<IProps & IMapDispatchToProps>  {
             filterValue: newFilterValue
         });
     }
-    changeStatus = (taskId: string, isDone:boolean) => {
-        this.changeTask(taskId, { status: isDone })
+    changeStatus = (taskId: string, status:boolean) => {
+        this.changeTask(taskId, { status })
     }
     changeTitle = (taskId: string, incomTitle: string) => {
         this.changeTask(taskId, { title: incomTitle })

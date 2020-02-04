@@ -57,7 +57,8 @@ export interface ITask {
     title: string,
     priority: number,
     status: number,
-    key?:string
+    key?:string,
+    checked: any
 }
 export interface Itodolist {
     map: any;
