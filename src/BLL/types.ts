@@ -1,3 +1,4 @@
+import { Reducer } from "redux";
 
 export const ADD_TODOLLIST = "Todolist/reducer/ADD_TODOLIST";
 export const DELETE_TODOLIST = "Todolist/reducer/DELETE_TODOLIST";
@@ -67,9 +68,13 @@ export interface Itodolist {
     tasks: Array<ITask>
 }
 export interface IState {
+    mainReducer: any
+}
+export interface IMainReducer {
     todolists: Array<Itodolist>,
     nextTaskId?: number
 }
+
 export interface IDataForServer {
     description: string
     title: string

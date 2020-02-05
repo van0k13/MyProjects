@@ -1,5 +1,7 @@
 import React from 'react';
 import '../App.css';
+import { Field } from 'redux-form';
+import { requiredField, maxLengthCreator } from '../additionalTools/validators';
 
 
 interface IProps {
@@ -17,6 +19,7 @@ class AddNewItemForm extends React.Component<IProps> {
 
     onAddItemClick = () => {
         let newText = this.state.title
+        this.props.addItem(newText)
         if (newText.trim() === '') {
             return this.setState({
                 error: true,
@@ -26,7 +29,6 @@ class AddNewItemForm extends React.Component<IProps> {
                 title: ''
             })
         }
-        this.props.addItem(newText);
     }
     onTitleChange = (e: React.FormEvent<HTMLInputElement>) => {
         this.setState({
@@ -39,20 +41,24 @@ class AddNewItemForm extends React.Component<IProps> {
             this.onAddItemClick()
         }
     }
-
     render = () => {
         let errorClass = this.state.error === true ? 'error' : '';
+        let maxLength = maxLengthCreator(20)
         return (
             <div className="todoList-header">
-                <h3 className="todoList-header__title">{this.state.title}</h3>
-                <div className="todoList-newTaskForm">
-                    <input onChange={this.onTitleChange}
-                        value={this.state.title}
+                <h3 className="todoList-header__title"></h3>
+                <form className="todoList-newTaskForm">
+                <div>
+                    <Field 
+                    component={'input'}
+                    name={'newItem'}
+                    validate={[requiredField, maxLength]}
                         className={errorClass}
                         type="text" placeholder="New Item name"
                         onKeyPress={this.onKeyPress} />
                     <button className='addTodolistButton' onClick={this.onAddItemClick}>Add</button>
                 </div>
+                </form>
             </div>
         );
     }

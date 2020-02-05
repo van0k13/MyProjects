@@ -39,7 +39,6 @@ class TodoListTask extends React.Component<IProps> {
         })
     }
     onIsDoneChange = (e: React.FormEvent<HTMLInputElement>) => {
-        debugger
         let task = this.props.task
         let status = e.currentTarget.checked ? 2 : 0
         this.props.changeStatus(task.id, status)
@@ -57,7 +56,6 @@ class TodoListTask extends React.Component<IProps> {
     }
 
     render = () => {
-        console.log(this.props.task.status)
         let priorityStatus: string = ''
         switch (this.props.task.priority) {
             case 0: priorityStatus = 'low'; break;
@@ -67,10 +65,10 @@ class TodoListTask extends React.Component<IProps> {
             case 4: priorityStatus = 'critical'; break;
             default: return null;
         }
-        let taskOrIsDoneStyle = this.props.task.status === 2 ? 'todoList-task-done' : 'todoList-task'
+        let taskOrIsDoneStyle = this.props.task.status === 2 ? 'todoList-task-done' : 'todoList-task';
         return (
             <div className={taskOrIsDoneStyle}>
-                <input onChange={this.onIsDoneChange} type="checkbox" checked={this.props.task.checked} />
+                <input onChange={this.onIsDoneChange} type="checkbox" checked={this.props.task.status === 2} />
                 {this.state.editModeTitle
                     ? <input onBlur={this.deActivateEditModeTitle}
                         onChange={this.onTitleChange}

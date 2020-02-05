@@ -1,16 +1,16 @@
 import { api } from "../DAL/api";
 import { IState, Itodolist, ITask, TodolistActionTypes, SET_TODOLISTS,
     ADD_TODOLLIST, CHANGE_TODOLIST, SET_TASKS, DELETE_TODOLIST, ADD_TASK,
-    CHANGE_TASK, DELETE_TASK} from "./types";
+    CHANGE_TASK, DELETE_TASK, IMainReducer} from "./types";
 
 
    
-const initialState:IState = {
+const initialState: IMainReducer = {
     todolists: [],
     
 }
 
-const reducer = (state = initialState, action: TodolistActionTypes): IState => {
+const reducer = (state = initialState, action: TodolistActionTypes): IMainReducer => {
     switch (action.type) {
         case SET_TODOLISTS:
             let todoLists = action.todolists.map((todo:Itodolist ) => ({ ...todo, tasks: [] }));
