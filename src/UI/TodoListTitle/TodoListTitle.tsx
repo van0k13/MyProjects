@@ -13,6 +13,13 @@ class TodoListTitle extends React.Component<IProps> {
         editModeTitle: false,
         title: this.props.title
     }
+    componentDidUpdate() {
+        if(this.props.title !== this.state.title){
+            this.setState({
+                title: this.props.title
+            })
+        }
+    }
 
     activateEditModeTitle = () => {
         this.setState({
@@ -32,6 +39,8 @@ class TodoListTitle extends React.Component<IProps> {
     }
 
     render = () => {
+        console.log('this props.title   ' + this.props.title)
+        console.log('this state.title   ' + this.state.title)
         return (
             <div className={styles.todoListHeader}>
                 {this.state.editModeTitle
@@ -40,9 +49,10 @@ class TodoListTitle extends React.Component<IProps> {
                         autoFocus={true} value={this.state.title} />
                     : <h3 onClick={this.activateEditModeTitle} className={styles.title}>
                         {this.state.title}
-                        <button className={styles.removingButton}
-                            onClick={this.props.deleteTodolist}>X</button>
+                        
                     </h3>}
+                    <button className={styles.removingButton}
+                            onClick={this.props.deleteTodolist}>X</button>
             </div>
         );
     }
