@@ -1,4 +1,3 @@
-import { Reducer } from "redux";
 
 export const ADD_TODOLLIST = "Todolist/reducer/ADD_TODOLIST";
 export const DELETE_TODOLIST = "Todolist/reducer/DELETE_TODOLIST";
@@ -10,46 +9,47 @@ export const SET_TODOLISTS = 'SET_TODOLISTS';
 export const SET_TASKS = 'SET_TASKS';
 
 
-export type TodolistActionTypes = SET_TODOLISTS| ADD_TODOLLIST | DELETE_TODOLIST | CHANGE_TODOLIST | ADD_TASK |
-    CHANGE_TASK | DELETE_TASK | SET_TASKS ;
+export type TodolistActionTypes = setTodolistsActionType | addTodolistActionType |
+    deleteTodolistActionType | changeTodolistActionType | addTaskActionType |
+    changeTaskActionType | deleteTaskActionType | setTaskActionType;
 
-interface ADD_TODOLLIST {
+export interface addTodolistActionType {
     newTodolist: Itodolist;
     type: typeof ADD_TODOLLIST
 }
-interface DELETE_TODOLIST {
+export interface deleteTodolistActionType {
     todolistId: string;
     type: typeof DELETE_TODOLIST
 }
-interface CHANGE_TODOLIST {
-    id: string;
+export interface changeTodolistActionType {
+    todolistId: string;
     title: string;
     type: typeof CHANGE_TODOLIST
 }
-interface ADD_TASK {
+export interface addTaskActionType {
     todolistId: string;
     newTask: ITask;
     type: typeof ADD_TASK
 }
-interface CHANGE_TASK {
+export interface changeTaskActionType {
     todolistId: string;
     taskId: string;
     obj: any;
     type: typeof CHANGE_TASK
 }
-interface DELETE_TASK {
+export interface deleteTaskActionType {
     todolistId: string;
     taskId: string;
     type: typeof DELETE_TASK
 }
-interface SET_TASKS {
+export interface setTaskActionType {
     todolistId: string;
     tasks: Array<ITask>;
     type: typeof SET_TASKS
 }
-interface SET_TODOLISTS {
+export interface setTodolistsActionType {
     type: typeof SET_TODOLISTS,
-    todolists: Itodolist
+    todolists: Array<Itodolist>
 }
 
 export interface ITask {
@@ -58,8 +58,12 @@ export interface ITask {
     title: string,
     priority: number,
     status: number,
-    key?:string,
-    checked: any
+    key?: string,
+    checked: any,
+    description: string,
+    completed: boolean,
+    startDate?: string,
+    deadline?: string
 }
 export interface Itodolist {
     map: any;
@@ -93,6 +97,6 @@ export interface AxiosResponse<T> {
     status: number;
     statusText: string;
     headers: any;
-  }
-  export interface AxiosPromise<T> extends Promise<AxiosResponse<T>> {
+}
+export interface AxiosPromise<T> extends Promise<AxiosResponse<T>> {
 }

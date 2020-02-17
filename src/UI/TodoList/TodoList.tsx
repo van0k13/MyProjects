@@ -66,12 +66,12 @@ class TodoList extends React.Component<IProps & IMapDispatchToProps>  {
     changeTask = (taskId: string, obj: any) => {
         this.props.changeTask(this.props.id, taskId, obj)
     }
-    changeFilter = (newFilterValue:string) => {
+    changeFilter = (newFilterValue: string) => {
         this.setState({
             filterValue: newFilterValue
         });
     }
-    changeStatus = (taskId: string, status:boolean) => {
+    changeStatus = (taskId: string, status: boolean) => {
         this.changeTask(taskId, { status })
     }
     changeTitle = (taskId: string, incomTitle: string) => {
@@ -93,7 +93,8 @@ class TodoList extends React.Component<IProps & IMapDispatchToProps>  {
                     id={this.props.id}
                     title={this.props.title} />
                 <AddNewItemForm addItem={this.addItem} />
-                <TodoListTasks id={this.props.tasks.map((t) =>t.id)} changeStatus={this.changeStatus}
+                <TodoListTasks id={this.props.tasks.map((t) => t.id)}
+                    changeStatus={this.changeStatus}
                     deleteItem={this.deleteItem}
                     changePriority={this.changePriority}
                     changeTitle={this.changeTitle}
