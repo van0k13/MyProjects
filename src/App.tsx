@@ -1,8 +1,9 @@
 import React from 'react';
 import './App.css';
 import TodoList from './UI/TodoList/TodoList';
+import store from './BLL/store';
 import AddNewItemForm from './UI/AddNewItemForm';
-import { connect } from 'react-redux';
+import { connect, Provider } from 'react-redux';
 import {thunkCreators } from './BLL/reducer';
 import {IState, Itodolist, IMainReducer} from "./BLL/types";
 
@@ -88,6 +89,12 @@ const mdtp = (dispatch: Function) => {
         }
     }
 }
+
+const MainApp = () => {
+    return <Provider store={store}>
+        <ConnectedApp />
+    </Provider>
+}
 const ConnectedApp = connect(mapStateToProps, mdtp)(App);
-export default ConnectedApp;
+export default MainApp;
 

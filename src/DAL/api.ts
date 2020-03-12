@@ -9,15 +9,15 @@ const instance = axios.create({
 
 
 export const api = {
-    getTodolists() {
-        return instance
-            .get("https://social-network.samuraijs.com/api/1.1/todo-lists/")
-            .then((res: any) => res.data)
+    async getTodolists() {
+        const res = await instance
+            .get('')
+        return res.data
     },
-    addTodolist(title: string) {
-        return instance
+    async addTodolist(title: string) {
+        const res = await instance
             .post("", { title })
-            .then((res) => res.data)
+        return res.data
     },
     deleteTodolist(TodoId: string) {
         return instance
@@ -31,10 +31,10 @@ export const api = {
         return instance
             .get(`${todoId}/tasks`)
     },
-    addTask(TodoId: string, newText: string) {
-        return instance
+    async addTask(TodoId: string, newText: string) {
+        const res = await instance
             .post(`${TodoId}/tasks`, { title: newText })
-            .then((res) => res.data)
+        return res.data
     },
     deleteTask(TodoId: string, taskId: string) {
         return instance

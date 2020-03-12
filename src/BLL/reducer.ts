@@ -5,13 +5,7 @@ import { setTodolistsActionType, addTaskActionType, changeTaskActionType,
     ADD_TODOLLIST, CHANGE_TODOLIST, SET_TASKS, DELETE_TODOLIST, ADD_TASK,
     CHANGE_TASK, DELETE_TASK, deleteTodolistActionType, IMainReducer} from "./types";
 import { Dispatch } from "redux";
-import { RootState } from "./store";
 
-
-interface IObjects {
-    status: number,
-    title: string
-}
 const initialState: IMainReducer = {
     todolists: [],
     
