@@ -4,17 +4,17 @@ import TodoList from './UI/TodoList/TodoList';
 import store from './BLL/store';
 import AddNewItemForm from './UI/AddNewItemForm';
 import { connect, Provider } from 'react-redux';
-import {thunkCreators } from './BLL/reducer';
-import {IState, Itodolist, IMainReducer} from "./BLL/types";
+import { thunkCreators } from './BLL/reducer';
+import { IState, Itodolist, IMainReducer } from "./BLL/types";
 
 
 interface IMapDispatchToProps {
     loadTodolists: Function,
     addTodoList: Function,
-    
+
 
 }
-interface IMapStateToProps{
+interface IMapStateToProps {
     todolists: Itodolist[],
 }
 class App extends React.Component<IMapDispatchToProps & IMapStateToProps> {

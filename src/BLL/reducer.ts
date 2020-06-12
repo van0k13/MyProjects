@@ -1,24 +1,24 @@
 import { api } from "../DAL/api";
-import { setTodolistsActionType, addTaskActionType, changeTaskActionType, 
-    addTodolistActionType, setTaskActionType, Itodolist, ITask, TodolistActionTypes, 
-    SET_TODOLISTS, changeTodolistActionType, deleteTaskActionType,  IDataForServer,
-    ADD_TODOLLIST, CHANGE_TODOLIST, SET_TASKS, DELETE_TODOLIST, ADD_TASK,
-    CHANGE_TASK, DELETE_TASK, deleteTodolistActionType, IMainReducer} from "./types";
+import { Itodolist, ITask, TodolistActionTypes,IDataForServer} from "./types";
 import { Dispatch } from "redux";
+import {actionCreators, ActionTypes} from "./actions";
+import {ThunkDispatch} from "redux-thunk";
+import {RootState} from "./store";
 
-const initialState: IMainReducer = {
-    todolists: [],
+const initialState = {
+    todolists: [] as Array<Itodolist>,
+    nextTaskId: 0
     
 }
-
-const reducer = (state:IMainReducer = initialState, action: TodolistActionTypes): IMainReducer => {
+type InitialStateType = typeof initialState
+const reducer = (state:InitialStateType = initialState, action: ActionTypes): InitialStateType => {
     switch (action.type) {
-        case SET_TODOLISTS:
+        case 'Todolist/reducer/SET_TODOLISTS':
             let todoLists = action.todolists.map((todo:Itodolist ) => ({ ...todo, tasks: [] }));
             return {
                 ...state, todolists: todoLists
             }
-        case ADD_TODOLLIST:
+        case "Todolist/reducer/ADD_TODOLIST":
             let todolists = {
                 ...action.newTodolist,
                 tasks: []
@@ -28,7 +28,7 @@ const reducer = (state:IMainReducer = initialState, action: TodolistActionTypes)
                 todolists: [todolists, ...state.todolists],
                 nextTaskId: +1
             }
-        case CHANGE_TODOLIST:
+        case "Todolist/reducer/CHANGE_TODOLIST":
             return {
                 ...state, todolists: state.todolists.map(todo => {
                     if (todo.id === action.todolistId) {
@@ -36,7 +36,7 @@ const reducer = (state:IMainReducer = initialState, action: TodolistActionTypes)
                     } else { return todo }
                 })
             }
-        case SET_TASKS:
+        case 'Todolist/reducer/SET_TASKS':
             return {
                 ...state,
                 todolists: state.todolists.map(todo => {
@@ -45,14 +45,14 @@ const reducer = (state:IMainReducer = initialState, action: TodolistActionTypes)
                     } return todo
                 })
             }
-        case DELETE_TODOLIST:
+        case "Todolist/reducer/DELETE_TODOLIST":
             return {
                 ...state,
                 todolists: state.todolists.filter(tl => {
                     return tl.id !== action.todolistId
                 })
             }
-        case ADD_TASK:
+        case "Todolist/reducer/ADD_TASK":
             return {
                 ...state,
                 todolists: state.todolists.map(tl => {
@@ -63,7 +63,7 @@ const reducer = (state:IMainReducer = initialState, action: TodolistActionTypes)
                     }
                 })
             }
-        case CHANGE_TASK:
+        case "Todolist/reducer/CHANGE_TASK":
             return {
                 ...state,
                 todolists: state.todolists.map((todo) => {
@@ -83,7 +83,7 @@ const reducer = (state:IMainReducer = initialState, action: TodolistActionTypes)
                     }
                 })
             }
-        case DELETE_TASK:
+        case "Todolist/reducer/DELETE_TASK":
             return {
                 ...state,
                 todolists: state.todolists.map(tl => {
@@ -104,20 +104,11 @@ const reducer = (state:IMainReducer = initialState, action: TodolistActionTypes)
     }
 }
 
-const actionCreators = {
-    setTodoList: (todolists: Array<Itodolist>): setTodolistsActionType => ({ type: SET_TODOLISTS, todolists }),
-    setTasks: (tasks: Array<ITask>, todolistId: string): setTaskActionType => ({ type: SET_TASKS, tasks, todolistId }),
-    addTodoList: (newTodolist: Itodolist): addTodolistActionType => ({ type: ADD_TODOLLIST, newTodolist }),
-    addTask: (newTask: ITask, todolistId: string): addTaskActionType => ({ type: ADD_TASK, newTask, todolistId }),
-    changeTask: (taskId: string, obj: any, todolistId: string): changeTaskActionType => ({ type: CHANGE_TASK, taskId, obj, todolistId }),
-    changeTodolist: (todolistId: string, title: string): changeTodolistActionType => ({ type: CHANGE_TODOLIST, todolistId, title }),
-    deleteTodoList: (todolistId: string): deleteTodolistActionType => ({ type: DELETE_TODOLIST, todolistId }),
-    deleteItem: (taskId: string, todolistId: string): deleteTaskActionType => ({ type: DELETE_TASK, taskId, todolistId })
-}
+
 
 export const thunkCreators = {
     loadTodolistsTC: () => {
-        return (dispatch: Dispatch<TodolistActionTypes>) => {
+        return (dispatch: ThunkDispatch<RootState, unknown, ActionTypes>) => {
             api.getTodolists()
                 .then((res: any) => {
                     dispatch(actionCreators.setTodoList(res))
