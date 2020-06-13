@@ -73,7 +73,7 @@ class TodoListTask extends React.Component<IProps> {
                     ? <input onBlur={this.deActivateEditModeTitle}
                         onChange={this.onTitleChange}
                         autoFocus={true} value={this.state.title} />
-                    : <span  onClick={this.activateEditModeTitle}>{' '}{this.props.task.title} </span>
+                    : <span  onDoubleClick={this.activateEditModeTitle}>{' '}{this.props.task.title} </span>
                 },
                      <span >{priorityStatus}</span>
                 <button className={styles.removingButton} onClick={this.onTaskDeleting}>X</button>

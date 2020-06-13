@@ -35,3 +35,6 @@
 .filter-active {
   background-color: rgb(110, 110, 201);
 }
+.todoList-footer button {
+  cursor: pointer;
+}

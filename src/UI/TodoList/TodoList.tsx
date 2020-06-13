@@ -43,8 +43,6 @@ class TodoList extends React.Component<IProps & IMapDispatchToProps>  {
         filterValue: 'All'
     }
 
-    nextTaskId = 0;
-
     saveState = () => {
         let stateAsString = JSON.stringify(this.state);
         localStorage.setItem('test-todolist' + this.props.id, stateAsString);
@@ -117,18 +115,10 @@ class TodoList extends React.Component<IProps & IMapDispatchToProps>  {
 }
 const mapDispatchToProps = (dispatch: Function) => {
     return {
-        loadTasks: (todolistId: string) => {
-            let thunk = thunkCreators.loadTasksTC(todolistId);
-            dispatch(thunk)
-        },
-        addTask: (todolistId: string, newText: string) => {
-            let thunk = thunkCreators.addTaskTC(todolistId, newText);
-            dispatch(thunk)
-        },
-        changeTodolistTitle: (todolistId: string, title: string) => {
-            let thunk = thunkCreators.changeTodolistTitleTC(todolistId, title);
-            dispatch(thunk)
-        },
+        loadTasks: (todolistId: string) => dispatch(thunkCreators.loadTasksTC(todolistId)),
+        addTask: (todolistId: string, newText: string) => dispatch(thunkCreators.addTaskTC(todolistId, newText)),
+        changeTodolistTitle: (todolistId: string, title: string) =>
+            dispatch(thunkCreators.changeTodolistTitleTC(todolistId, title)),
         changeTask: (todolistId: string, taskId: string, obj: any) => {
             let thunk = thunkCreators.changeTaskTC(todolistId, taskId, obj);
             dispatch(thunk)

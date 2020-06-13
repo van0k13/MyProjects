@@ -1,6 +1,5 @@
 import { api } from "../DAL/api";
-import { Itodolist, ITask, TodolistActionTypes,IDataForServer} from "./types";
-import { Dispatch } from "redux";
+import { Itodolist, ITask,IDataForServer} from "./types";
 import {actionCreators, ActionTypes} from "./actions";
 import {ThunkDispatch} from "redux-thunk";
 import {RootState} from "./store";
@@ -33,7 +32,7 @@ const reducer = (state:InitialStateType = initialState, action: ActionTypes): In
                 ...state, todolists: state.todolists.map(todo => {
                     if (todo.id === action.todolistId) {
                         return { ...todo, title: action.title }
-                    } else { return todo }
+                    } else  return todo
                 })
             }
         case 'Todolist/reducer/SET_TASKS':
@@ -58,9 +57,7 @@ const reducer = (state:InitialStateType = initialState, action: ActionTypes): In
                 todolists: state.todolists.map(tl => {
                     if (tl.id === action.todolistId) {
                         return { ...tl, tasks: [...tl.tasks, action.newTask] }
-                    } else {
-                        return tl
-                    }
+                    } else return tl
                 })
             }
         case "Todolist/reducer/CHANGE_TASK":
@@ -73,14 +70,10 @@ const reducer = (state:InitialStateType = initialState, action: ActionTypes): In
                             tasks: todo.tasks.map((task) => {
                                 if (task.id === action.taskId) {
                                     return { ...task, ...action.obj }
-                                } else {
-                                    return task
-                                }
+                                } else return task
                             })
                         }
-                    } else {
-                        return todo
-                    }
+                    } else return todo
                 })
             }
         case "Todolist/reducer/DELETE_TASK":
@@ -94,9 +87,7 @@ const reducer = (state:InitialStateType = initialState, action: ActionTypes): In
                                 return (task.id !== action.taskId)
                             })
                         }
-                    } else {
-                        return tl
-                    }
+                    } else return tl
                 })
             }
         default:
@@ -116,7 +107,7 @@ export const thunkCreators = {
         }
     },
     addTodolistTC: (title: string) => {
-        return (dispatch: Dispatch<TodolistActionTypes>) => {
+        return (dispatch: ThunkDispatch<RootState, unknown, ActionTypes>) => {
             api.addTodolist(title)
                 .then((res) => {
                     let todolist = res.data.item;
@@ -125,7 +116,7 @@ export const thunkCreators = {
         }
     },
     loadTasksTC: (todolistId: string) => {
-        return (dispatch: Dispatch<TodolistActionTypes>) => {
+        return (dispatch: ThunkDispatch<RootState, unknown, ActionTypes>) => {
             api.getTasks(todolistId)
                 .then((res) => {
                     let tasks = res.data.items;
@@ -134,7 +125,7 @@ export const thunkCreators = {
         }
     },
     addTaskTC: (todolistId: string, newText: string) => {
-        return (dispatch: Dispatch<TodolistActionTypes>) => {
+        return (dispatch: ThunkDispatch<RootState, unknown, ActionTypes>) => {
             api.addTask(todolistId, newText)
                 .then((res) => {
                     let newTask = res.data.item;
@@ -143,16 +134,13 @@ export const thunkCreators = {
         }
     },
     changeTodolistTitleTC: (todolistId: string, title: string) => {
-        return (dispatch: Dispatch<TodolistActionTypes>) => {
+        return (dispatch: ThunkDispatch<RootState, unknown, ActionTypes>) => {
             api.changeTodolist(todolistId, title)
-                .then(res => {
-                    dispatch(actionCreators.changeTodolist(todolistId, title));
-                })
+                .then(_=>dispatch(actionCreators.changeTodolist(todolistId, title)))
         }
     },
     changeTaskTC: (todolistId: string, taskId: string, obj: IDataForServer) => {
-        debugger
-        return (dispatch: Dispatch<TodolistActionTypes>, getState:  any) => {
+        return (dispatch: ThunkDispatch<RootState, unknown, ActionTypes>, getState: ()=>any) => {
             let task: ITask = getState()
                 .mainReducer
                 .todolists.find((tl: Itodolist) => tl.id === todolistId)
@@ -168,25 +156,19 @@ export const thunkCreators = {
                 ...obj
             };
             api.changeTask(todolistId, taskId, dataForServer)
-                .then((res) => {
-                    dispatch(actionCreators.changeTask(taskId, obj, todolistId))
-                })
+                .then(_=>dispatch(actionCreators.changeTask(taskId, obj, todolistId)))
         }
     },
     deleteTodolistTC: (todolistId: string) => {
-        return (dispatch: Dispatch<TodolistActionTypes>) => {
+        return (dispatch: ThunkDispatch<RootState, unknown, ActionTypes>) => {
             api.deleteTodolist(todolistId)
-                .then(res => {
-                    dispatch(actionCreators.deleteTodoList(todolistId))
-                });
+                .then(_=>dispatch(actionCreators.deleteTodoList(todolistId)));
         }
     },
     deleteTaskTC: (todolistId: string, taskId: string) => {
-        return (dispatch: Dispatch<TodolistActionTypes>) => {
+        return (dispatch: ThunkDispatch<RootState, unknown, ActionTypes>) => {
             api.deleteTask(todolistId, taskId)
-                .then(res => {
-                    dispatch(actionCreators.deleteItem(taskId, todolistId))
-                });
+                .then(_=>dispatch(actionCreators.deleteItem(taskId, todolistId)));
         }
     }
 }

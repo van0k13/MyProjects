@@ -5,6 +5,9 @@
 .todoList-task {
     transition: 0.5s;
 }
+.todoList-task span {
+    cursor: pointer;
+}
 .todoList-task-done {
     opacity: 0.5;
     transition: 0.5s;
